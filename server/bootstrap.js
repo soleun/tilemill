@@ -50,7 +50,15 @@ module.exports = function(app, settings) {
         console.log('Creating export dir %s', settings.export_dir);
         fs.mkdirSync(settings.export_dir, 0777);
     }
-
+    
+    var local_data_default = path.join(settings.tilemill_home, 'files', 'data');
+    try {
+        fs.statSync(local_data_default);
+    } catch (Exception) {
+        console.log('Creating local data dir %s', local_data_default);
+        fs.mkdirSync(local_data_default, 0777);
+    }
+    
     // @TODO: Better infrastructure for handling updates.
 
     // Update 1: Migrate to new backbone-dirty key format.
@@ -83,7 +91,7 @@ module.exports = function(app, settings) {
         function() {
             if (!data.get('directory_path')) {
                 data.save({
-                    'directory_path': path.join(__dirname, '..', 'files', 'data')
+                    'directory_path': local_data_default
                 });
             }
         }
