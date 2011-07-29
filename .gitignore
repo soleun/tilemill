@@ -6,4 +6,4 @@ modules
 files
 share
 src
-platform/osx/build
+platforms/osx/build
