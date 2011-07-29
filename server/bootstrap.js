@@ -51,12 +51,11 @@ module.exports = function(app, settings) {
         fs.mkdirSync(settings.export_dir, 0777);
     }
     
-    var local_data_default = path.join(settings.tilemill_home, 'files', 'data');
     try {
-        fs.statSync(local_data_default);
+        fs.statSync(settings.local_data);
     } catch (Exception) {
-        console.log('Creating local data dir %s', local_data_default);
-        fs.mkdirSync(local_data_default, 0777);
+        console.log('Creating local data dir %s', settings.local_data);
+        fs.mkdirSync(settings.local_data, 0777);
     }
     
     // @TODO: Better infrastructure for handling updates.
@@ -91,7 +90,7 @@ module.exports = function(app, settings) {
         function() {
             if (!data.get('directory_path')) {
                 data.save({
-                    'directory_path': local_data_default
+                    'directory_path': settings.local_data
                 });
             }
         }
