@@ -1,9 +1,14 @@
+var tilemill_home = __dirname;
+// optionally on osx
+//var tilemill_home = process.ENV.HOME + '/Documents/TileMill'
+
 module.exports = {
     'port': 8889,
-    'files': __dirname + '/files',
-    'mapfile_dir': __dirname + '/files/.cache',
-    'data_dir': __dirname + '/files/.cache',
-    'export_dir': __dirname + '/files/export',
+    'tilemill_home':tilemill_home,
+    'files': tilemill_home + '/files',
+    'mapfile_dir': tilemill_home + '/.cache',
+    'data_dir': tilemill_home + '/.cache',
+    'export_dir': tilemill_home + '/export',
     // TODO: request-specific overrides
     'header_defaults': {
         'Expires': new Date(Date.now() +

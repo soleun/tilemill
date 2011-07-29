@@ -3,7 +3,26 @@ var fs = require('fs'),
     path = require('path'),
     Step = require('step');
 
+function mkdirpSync(p) {
+    var ps = path.normalize(p).split('/');
+    var created = [];
+    while (ps.length) {
+        created.push(ps.shift());
+        if (created.length > 1 && !path.existsSync(created.join('/'))) {
+            var err = fs.mkdirSync(created.join('/'), 0755);
+            if (err) return err;
+        }
+    }
+};
+
 module.exports = function(app, settings) {
+    try {
+        fs.statSync(settings.tilemill_home);
+    } catch (Exception) {
+        console.log('Creating tilemill base directory: %s', settings.tilemill_home);
+        mkdirpSync(settings.tilemill_home, 0777);
+    }
+
     try {
         fs.statSync(settings.files);
     } catch (Exception) {
