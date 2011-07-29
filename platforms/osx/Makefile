@@ -1,6 +1,6 @@
 
 build:
-	@export CC=/Developer/usr/bin/gcc; xcodebuild -project tilemill.xcodeproj
+	@xcodebuild -project tilemill.xcodeproj
 
 clean:
 	@xcodebuild -project tilemill.xcodeproj clean
