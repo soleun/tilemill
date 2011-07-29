@@ -6,8 +6,8 @@ module.exports = {
     'port': 8889,
     'tilemill_home':tilemill_home,
     'files': tilemill_home + '/files',
-    'mapfile_dir': tilemill_home + '/.cache',
-    'data_dir': tilemill_home + '/.cache',
+    'mapfile_dir': tilemill_home + '/files/.cache',
+    'data_dir': tilemill_home + '/files/.cache',
     'export_dir': tilemill_home + '/export',
     // TODO: request-specific overrides
     'header_defaults': {
