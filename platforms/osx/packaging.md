@@ -115,6 +115,3 @@ And check builds overall
 Now test that the app still works
  
     ./tilemill.js
-
-
-
