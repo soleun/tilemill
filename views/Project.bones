@@ -14,6 +14,7 @@ view.prototype.events = {
     'click .layers a.inspect': 'layerInspect',
     'click .layers a.delete': 'layerDelete',
     'click .editor a.add': 'stylesheetAdd',
+    'dblclick .tabs a': 'stylesheetRename',
     'click .editor a.delete': 'stylesheetDelete',
     'sortupdate .layers ul': 'sortLayers',
     'sortupdate .tabs': 'sortStylesheets',
@@ -39,6 +40,7 @@ view.prototype.initialize = function() {
         'makeLayer',
         'makeStylesheet',
         'stylesheetAdd',
+        'stylesheetRename',
         'stylesheetDelete',
         'sortLayers',
         'sortStylesheets',
@@ -339,6 +341,18 @@ view.prototype.stylesheetAdd = function(ev) {
     model.bind('add', this.makeStylesheet);
     new views.Stylesheet({el:$('#popup'), model:model});
 };
+
+view.prototype.stylesheetRename = function(ev) {
+    var stylesheet = this.model.get('Stylesheet').models[ev.target, $(ev.target).parent().index()];
+    stylesheet.bind('change:id', function() {
+        console.log('here');
+        $(ev.target).text(this.get('id'));
+    });
+    new views.Stylesheet({
+        el: $('#popup'),
+        model: stylesheet
+    });
+}
 
 view.prototype.stylesheetDelete = function(ev) {
     var id = $(ev.currentTarget).attr('href').split('#').pop();

@@ -1,5 +1,5 @@
 <li>
-  <a class='tab <%= !collection.indexOf(obj) ? 'active' : '' %>' href='#stylesheet-<%= id.replace(/[\.]/g, '-') %>'>
+  <a class='popup-double tab <%= !collection.indexOf(obj) ? 'active' : '' %>' href='#stylesheet-<%= id.replace(/[\.]/g, '-') %>'>
   <%= id %>
   </a>
   <a class='icon delete' href='#<%= id %>'></a>
