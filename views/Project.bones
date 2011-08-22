@@ -65,6 +65,7 @@ view.prototype.initialize = function() {
 
     window.onbeforeunload = window.onbeforeunload || this.unload;
 
+    this.model.bind('save', this.render);
     this.model.bind('save', this.attach);
     this.model.bind('change', this.change);
     this.model.bind('poll', this.render);
@@ -73,33 +74,32 @@ view.prototype.initialize = function() {
 };
 
 view.prototype.render = function(init) {
-    if (init === true) {
-        $(this.el).html(templates.Project(this.model));
+    var center = init ? this.model.get('center') : [ this.map.getCenter().lon, this.map.getCenter().lat, this.map.getZoom() ];
+    $(this.el).html(templates.Project(this.model));
 
-        if (!com.modestmaps) throw new Error('ModestMaps not found.');
-        this.map = new com.modestmaps.Map('map',
-            new wax.mm.connector(this.model.attributes));
+    if (!com.modestmaps) throw new Error('ModestMaps not found.');
+    this.map = new com.modestmaps.Map('map',
+        new wax.mm.connector(this.model.attributes));
 
-        // Add references to all controls onto the map object.
-        // Allows controls to be removed later on.
-        this.map.controls = {
-            interaction: wax.mm.interaction(this.map, this.model.attributes),
-            legend: wax.mm.legend(this.map, this.model.attributes),
-            zoombox: wax.mm.zoombox(this.map),
-            zoomer: wax.mm.zoomer(this.map).appendTo(this.map.parent),
-            fullscreen: wax.mm.fullscreen(this.map).appendTo(this.map.parent)
-        };
+    // Add references to all controls onto the map object.
+    // Allows controls to be removed later on.
+    this.map.controls = {
+        interaction: wax.mm.interaction(this.map, this.model.attributes),
+        legend: wax.mm.legend(this.map, this.model.attributes),
+        zoombox: wax.mm.zoombox(this.map),
+        zoomer: wax.mm.zoomer(this.map).appendTo(this.map.parent),
+        fullscreen: wax.mm.fullscreen(this.map).appendTo(this.map.parent)
+    };
 
-        var center = this.model.get('center');
-        this.map.setCenterZoom(new com.modestmaps.Location(
-            center[1],
-            center[0]),
-            center[2]);
-        this.map.addCallback('zoomed', this.mapZoom);
-        this.map.addCallback('panned', this.mapZoom);
-        this.map.addCallback('extentset', this.mapZoom);
-        this.mapZoom({element: this.map.div});
-    }
+    this.map.setCenterZoom(new com.modestmaps.Location(
+        center[1],
+        center[0]),
+        center[2]);
+    this.map.addCallback('zoomed', this.mapZoom);
+    this.map.addCallback('panned', this.mapZoom);
+    this.map.addCallback('extentset', this.mapZoom);
+    this.mapZoom({element: this.map.div});
+
     this.$('.tabs').empty();
     this.$('.code').empty();
     this.$('.layers ul').empty();
