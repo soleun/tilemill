@@ -345,7 +345,6 @@ view.prototype.stylesheetAdd = function(ev) {
 view.prototype.stylesheetRename = function(ev) {
     var stylesheet = this.model.get('Stylesheet').models[ev.target, $(ev.target).parent().index()];
     stylesheet.bind('change:id', function() {
-        console.log('here');
         $(ev.target).text(this.get('id'));
     });
     new views.Stylesheet({
