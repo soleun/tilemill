@@ -52,6 +52,7 @@ view.prototype.zoom = function(ev, ui) {
 
 view.prototype.save = function() {
     var attr = _({
+        'id':            this.$('input[name=id]').val(),
         'name':          this.$('input[name=name]').val(),
         'description':   this.$('input[name=description]').val(),
         'attribution':   this.$('input[name=attribution]').val(),

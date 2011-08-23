@@ -165,6 +165,8 @@ model.prototype.defaults = {
 // Set model options to `this.options`.
 model.prototype.initialize = function(attributes, options) {
     this.options = options;
+    // Used when updating the id.
+    this._id = this.id;
 };
 
 // Custom setDefaults() method for creating a project with default layers,
@@ -197,7 +199,7 @@ model.prototype.parse = function(resp) {
 };
 
 model.prototype.url = function() {
-    return '/api/Project/' + this.id;
+    return '/api/Project/' + this._id;
 };
 
 // Adds:

@@ -42,6 +42,8 @@ view.prototype.initialize = function() {
         'stylesheetAdd',
         'stylesheetRename',
         'stylesheetDelete',
+        'changeId',
+        'redirect',
         'sortLayers',
         'sortStylesheets',
         'exportAdd',
@@ -65,6 +67,8 @@ view.prototype.initialize = function() {
 
     window.onbeforeunload = window.onbeforeunload || this.unload;
 
+    this.model.bind('change:id', this.changeId);
+    this.model.bind('save', this.redirect);
     this.model.bind('save', this.render);
     this.model.bind('save', this.attach);
     this.model.bind('change', this.change);
@@ -364,6 +368,16 @@ view.prototype.stylesheetDelete = function(ev) {
         affirmative: 'Delete'
     });
 };
+
+view.prototype.changeId = function() {
+    this.idChanged = true;
+}
+
+view.prototype.redirect = function() {
+    if (this.idChanged) {
+        Backbone.history.saveLocation('/project/' + this.model.get('id'));
+    }
+}
 
 view.prototype.sortLayers = function() {
     var order = _(this.$('.layers li .actions a')).chain()
