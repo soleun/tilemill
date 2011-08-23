@@ -46,6 +46,7 @@ custom flags we set later on.
 
     npm install -g jshint expresso
     
+jshint installation may fail with clang++.
 
 ## Build tilemill
 
@@ -119,21 +120,27 @@ you may hit segfaults in node-mapnik later on.
 Mapnik needs to be compiled such that all dependencies are either statically linked
 or are linked using @rpath/@loader_path (and then all those dylib deps are included).
 
-An experimental SDK includes these dependencies as static libs and can be tested.
+An experimental SDK includes all mapnik dependencies such that you can set up
+mapnik to be compiled statically against them.
 
-To set up the SDK do:
+To set up the SDK and build mapnik do:
 
-    # create a directory to hold the static sources
-    # this can live anywhere of your choosing
     mkdir mapnik-static-sdk
     cd mapnik-static-sdk
-
-    # download and unpack the latest sdk
-    wget http://dbsgeo.com/mapnik/mapnik-static-sdk-2.0.0_r3085.tar.bz2
-    tar xvf mapnik-static-sdk-2.0.0_r3085.tar.bz2
+    svn co http://svn.mapnik.org/trunk/ mapnik-trunk
+    cd mapnik-trunk
+    curl http://tilemill-osx.s3.amazonaws.com/mapnik-static-sdk-r3183M.diff | patch -p0
+    cd osx/
+    curl -o sources.tar.bz2 http://tilemill-osx.s3.amazonaws.com/mapnik-static-sdk-2.0.0_r3183M.tar.bz2
+    tar xvf sources.tar.bz2
+    cd ../
+    cp osx/config.py .
+    ./configure
+    make
+    make install
 
     # set critical shell env settings
-    export MAPNIK_ROOT=`pwd`/sources
+    export MAPNIK_ROOT=`pwd`/mapnik-trunk
     export PATH=$MAPNIK_ROOT/usr/local/bin:$PATH
 
 Confirm the SDK is working by checking mapnik-config presence at that path:
