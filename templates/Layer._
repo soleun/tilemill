@@ -56,6 +56,11 @@
       <input type='text' name='srs' value='<%=get('srs')%>' size='40' placeholder='Autodetect' />
       <small class='description'>SRS projection string for this datasource. TileMill can often autodetect this value.</small>
     </li>
+    <li>
+      <label for='advanced'>Advanced</label>
+      <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1="?" option2="?"' />
+      <span class='description'>Optional, advanced arguments to pass to Mapnik.</span>
+    </li>
     <li class='buttons'>
       <input type='submit' value='Save' />
       <input type='button' value='Cancel' class='cancel' />
@@ -124,6 +129,11 @@
       <input type='text' name='srs' value='<%=get('srs')%>' size='40' placeholder='<%=SRS["900913"]%>' />
       <small class='description'>SRS projection string for this datasource.</small>
     </li>
+    <li>
+      <label for='advanced'>Advanced</label>
+      <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1="?" option2="?"' />
+      <span class='description'>Optional, advanced arguments to pass to Mapnik.</span>
+    </li>
     <li class='buttons'>
       <input type='submit' value='Save' />
       <input type='button' value='Cancel' class='cancel' />
@@ -165,18 +175,13 @@
     </li>
     <li>
       <label for='attachdb'>Attach DB</label>
-      <input type='text' name='attachdb' value='<%=get('Datasource') && get('Datasource').attachdb%>' />
-      <span class='description'></span>
-    </li>
-    <li>
-      <label for='attachdb'>Key field</label>
-      <input type='text' name='key_field' value='<%=get('Datasource') && get('Datasource').key_field%>' />
-      <span class='description'></span>
+      <input type='text' name='attachdb' value='<%=get('Datasource') && get('Datasource').attachdb%>' placeholder='name1@file/path.sqlite,name2@other.sqlite' />
+      <span class='description'>attach additional databases for joins</span>
     </li>
     <li>
       <label for='extent'>Extent</label>
       <input type='text' name='extent' value='<%=get('Datasource') && get('Datasource').extent%>' />
-      <span class='description'></span>
+      <span class='description'>limit the query by this bounding box</span>
     </li>
     <li>
       <label for='srs-name'>SRS</label>
@@ -193,6 +198,11 @@
       </select>
       <input type='text' name='srs' value='<%=get('srs')%>' size='40' placeholder='<%=SRS["900913"]%>' />
       <small class='description'>SRS projection string for this datasource.</small>
+    </li>
+    <li>
+      <label for='advanced'>Advanced</label>
+      <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1="?" option2="?"' />
+      <span class='description'>Optional, advanced arguments to pass to Mapnik.</span>
     </li>
     <li class='buttons'>
       <input type='submit' value='Save' />

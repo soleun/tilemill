@@ -13,14 +13,14 @@ model.prototype.schema = {
             'required': true,
             'pattern': '^[A-Za-z0-9\-_]+$',
             'title': 'Name',
-            'description': 'Name may include alphanumeric characters, dashes and underscores.'
+            'description': 'Name is required and may only include alphanumeric characters, dashes and underscores.'
         },
         'id': {
             'type': 'string',
             'required': true,
             'pattern': '^[A-Za-z0-9\-_]+$',
             'title': 'ID',
-            'description': 'ID may include alphanumeric characters, dashes and underscores.'
+            'description': 'ID is required and may only include alphanumeric characters, dashes and underscores.'
         },
         'class': {
             'type': 'string',
@@ -47,6 +47,7 @@ model.prototype.schema = {
 model.prototype.initialize = function(attributes) {
     this.set({'Datasource': attributes.Datasource});
 };
+
 // Constant. Hash of simple names to known SRS strings.
 model.prototype.SRS = {
     // note: 900913 should be the same as EPSG 3857
@@ -95,4 +96,20 @@ model.prototype.validateAsync = function(attributes, options) {
         error: options.error
     });
 };
+
+model.prototype.advancedDatasourceOptions = function() {
+    var omit = [
+        'type', 'file',
+        'table', 'host', 'port', 'user', 'password', 'dbname',
+        'extent', 'key_field', 'geometry_field', 'type', 'attachdb',
+        'srs', 'id', 'project'
+    ];
+    var advancedOptions = [];
+    _(this.get('Datasource')).each(function(value, key) {
+        if (omit.indexOf(key) === -1) {
+            advancedOptions.push(key + '="' + value + '"');
+        }
+    });
+    return advancedOptions.join(' ');
+}
 
